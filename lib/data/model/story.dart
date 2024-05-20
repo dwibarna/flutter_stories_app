@@ -1,5 +1,9 @@
-import 'dart:convert';
 
+import 'package:json_annotation/json_annotation.dart';
+
+part 'story.g.dart';
+
+@JsonSerializable()
 class Story {
   String id;
   String name;
@@ -19,11 +23,15 @@ class Story {
     required this.lon,
   });
 
-  factory Story.fromRawJson(String str) => Story.fromJson(json.decode(str));
+  factory Story.fromJson(Map<String, dynamic> json) => _$StoryFromJson(json);
 
-  String toRawJson() => json.encode(toJson());
+  Map<String, dynamic> toJson() => _$StoryToJson(this);
 
-  factory Story.fromJson(Map<String, dynamic> json) => Story(
+/*  factory Story.fromRawJson(String str) => Story.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());*/
+
+/*  factory Story.fromJson(Map<String, dynamic> json) => Story(
         id: json["id"],
         name: json["name"],
         description: json["description"],
@@ -41,5 +49,5 @@ class Story {
         "createdAt": createdAt.toString(),
         "lat": lat,
         "lon": lon,
-      };
+      };*/
 }

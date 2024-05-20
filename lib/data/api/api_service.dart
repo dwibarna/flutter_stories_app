@@ -41,7 +41,6 @@ class ApiService {
     final Uint8List responseList = await streamedResponse.stream.toBytes();
     final String responseData = String.fromCharCodes(responseList);
 
-    print(responseData);
     if (streamedResponse.statusCode == 201 ||
         streamedResponse.statusCode == 200) {
       return PostResponse.fromRawJson(responseData);
@@ -57,7 +56,6 @@ class ApiService {
       final Map<String, String> headers = {'Authorization': 'Bearer $token'};
 
       final response = await client.get(Uri.parse(url), headers: headers);
-      print(response.body);
 
       if (response.statusCode == 200) {
         return DetailStoryResponse.fromJson(json.decode(response.body));

@@ -8,11 +8,12 @@ import 'package:flutter_stories_app/route/route_name.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(initialLocation: RouteName.init, routes: [
-  GoRoute(path: '/${RouteName.add}',
-  name: RouteName.add,
-  builder: (context, state) {
-    return const AddStoryScreen();
-  }),
+  GoRoute(
+      path: '/${RouteName.add}',
+      name: RouteName.add,
+      builder: (context, state) {
+        return const AddStoryScreen();
+      }),
   GoRoute(
       path: '/${RouteName.home}',
       name: RouteName.home,

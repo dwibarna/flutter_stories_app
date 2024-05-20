@@ -1,7 +1,10 @@
-import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../model/user.dart';
 
+part 'login_response.g.dart';
+
+@JsonSerializable()
 class LoginResponse {
   bool error;
   String message;
@@ -13,7 +16,12 @@ class LoginResponse {
     required this.loginResult,
   });
 
-  factory LoginResponse.fromRawJson(String str) =>
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LoginResponseToJson(this);
+
+/*  factory LoginResponse.fromRawJson(String str) =>
       LoginResponse.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
@@ -28,5 +36,5 @@ class LoginResponse {
         "error": error,
         "message": message,
         "loginResult": loginResult.toJson(),
-      };
+      };*/
 }
