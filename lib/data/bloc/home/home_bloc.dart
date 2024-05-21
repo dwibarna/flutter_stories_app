@@ -4,9 +4,14 @@ import 'package:flutter_stories_app/data/bloc/home/home_event.dart';
 import 'package:flutter_stories_app/data/bloc/home/home_state.dart';
 import 'package:flutter_stories_app/data/preference/preference_manager.dart';
 
+import '../../model/story.dart';
+
 class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   final PreferenceManager _preferenceManager;
   final ApiService _apiService;
+  int pageSize = 10;
+  int? page = 1;
+  List<Story> story = [];
 
   HomeBloc(this._preferenceManager, this._apiService) : super(OnLoading()) {
     on<GetStoryListEvent>(_getStoryList);
@@ -14,13 +19,19 @@ class HomeBloc extends Bloc<HomeEvents, HomeStates> {
   }
 
   _getStoryList(GetStoryListEvent event, Emitter<HomeStates> emit) async {
-    emit(OnLoading());
     try {
       final token = await _preferenceManager.getLoginUser();
-
-      await _apiService.getListStory(token).then((value) {
+      if (page == 1) {
+        emit(OnLoading());
+      }
+      await _apiService.getListStory(token, page!, pageSize).then((value) {
         if (!value.error) {
-          emit(OnSuccess(response: value.listStory));
+          if (value.listStory.length < pageSize) {
+            page = null;
+          } else {
+            emit(OnSuccess(response: value.listStory));
+            page = page! + 1;
+          }
         } else {
           emit(OnError(error: value.message));
         }

@@ -11,7 +11,6 @@ import '../response/post_response.dart';
 
 class ApiService {
   final Client client;
-
   ApiService(this.client);
 
   static const baseUrl = 'https://story-api.dicoding.dev/v1';
@@ -70,9 +69,9 @@ class ApiService {
     }
   }
 
-  Future<ListStoryResponse> getListStory(String token) async {
+  Future<ListStoryResponse> getListStory(String token, int page, int pageSize) async {
     try {
-      const String url = '$baseUrl/stories';
+      String url = '$baseUrl/stories?page=$page&size=$pageSize';
 
       final Map<String, String> headers = {'Authorization': 'Bearer $token'};
 

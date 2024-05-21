@@ -13,12 +13,41 @@ import 'package:go_router/go_router.dart';
 
 import '../widgets/custom_snack_bar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeBloc bloc;
+  final ScrollController _scrollController = ScrollController();
+  final List<Story> story = [];
+
+  @override
+  void initState() {
+    bloc = BlocProvider.of<HomeBloc>(context);
+    bloc.add(const GetStoryListEvent());
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent) {
+        if(bloc.page != null) {
+          bloc.add(const GetStoryListEvent());
+        }
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    BlocProvider.of<HomeBloc>(context).add(const GetStoryListEvent());
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.greenAccent,
@@ -41,10 +70,15 @@ class HomeScreen extends StatelessWidget {
           } else if (state is OnSuccess) {
             return Center(
               child: ListView.builder(
+                controller: _scrollController,
                 itemBuilder: (context, idx) {
-                  return _customListItem(context, state.response[idx]);
+                  if(idx == story.length && bloc.page != null) {
+                    return customLoading();
+                  } else {
+                    return _customListItem(context, story[idx]);
+                  }
                 },
-                itemCount: state.response.length,
+                itemCount: story.length + (bloc.page != null ? 1 : 0),
               ),
             );
           } else if (state is OnError) {
@@ -63,6 +97,8 @@ class HomeScreen extends StatelessWidget {
             ScaffoldMessenger.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(customSnackBar(StatusSnackBar.error, state.error));
+          } else if(state is OnSuccess) {
+            story.addAll(state.response);
           }
         }),
         floatingActionButton: FloatingActionButton(
