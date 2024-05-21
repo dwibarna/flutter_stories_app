@@ -49,6 +49,9 @@ dependencies:
   image: ^4.1.7
   build_runner: ^2.4.10
   json_serializable: ^6.8.0
+  google_maps_flutter: ^2.2.8
+  location: ^6.0.2
+  geocoding: ^3.0.0
 
 
 dev_dependencies:

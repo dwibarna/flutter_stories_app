@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_stories_app/data/model/story.dart';
+import 'package:geocoding/geocoding.dart';
 
 class DetailStates extends Equatable {
   @override
@@ -10,8 +11,9 @@ class OnLoading extends DetailStates {}
 
 class OnSuccess extends DetailStates {
   final Story response;
+  final List<Placemark>? info;
 
-  OnSuccess({required this.response});
+  OnSuccess(this.info, {required this.response});
 
   @override
   List<Object> get props => [response];
