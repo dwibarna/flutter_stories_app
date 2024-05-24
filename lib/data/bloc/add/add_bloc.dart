@@ -15,10 +15,18 @@ class AddBloc extends Bloc<AddEvents, AddStates> {
   AddBloc(this.apiService, this.preferenceManager) : super(InitialState()) {
     on<SetImageEvent>(_getImage);
     on<UploadStoryEvent>(_uploadStoryEvent);
+    on<UpdateDataPaidEvent>(_getPaidDataEvent);
   }
 
   _getImage(SetImageEvent event, Emitter<AddStates> emit) async {
     emit(GetImageState(imagePath: event.imagePath, imageFile: event.imageFile));
+  }
+
+  _getPaidDataEvent(UpdateDataPaidEvent event, Emitter<AddStates> emit) async {
+    emit(UpdateDataPaidState(
+        imagePath: event.imagePath,
+        imageFile: event.imageFile,
+        latLng: event.latLng));
   }
 
   _uploadStoryEvent(UploadStoryEvent event, Emitter<AddStates> emit) async {
@@ -27,10 +35,10 @@ class AddBloc extends Bloc<AddEvents, AddStates> {
       final token = await preferenceManager.getLoginUser();
       final newBytes = await _compressImage(event.bytes);
       await apiService
-          .postAddNewStory(event.description, newBytes, event.fileName, token)
+          .postAddNewStory(
+              event.description, newBytes, event.fileName, token, event.latLng)
           .then((value) {
         if (!value.error) {
-          print(value);
           emit(AfterUploadState(message: value.message));
         } else {
           emit(OnErrorUpload(error: value.message));

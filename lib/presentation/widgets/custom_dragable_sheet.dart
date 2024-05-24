@@ -54,7 +54,7 @@ class _CustomDraggableState extends State<CustomDraggableSheet> {
           minChildSize: 0.1, // Ensure sheet is always visible
           expand: true,
           snap: true,
-          snapSizes: [
+          snapSizes: const [
             0.1, // Minimum visible size
             0.5, // Midway size
           ],
@@ -72,34 +72,11 @@ class _CustomDraggableState extends State<CustomDraggableSheet> {
                 controller: scrollController,
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                     child: buildCoreDetail(widget.story, context),
                   )
                 ],
               )
-
-              /*CustomScrollView(
-                controller: scrollController,
-                slivers: [
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Text('Title', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                    ),
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate(
-                      [
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text('Content', style: TextStyle(fontSize: 16)),
-                        ),
-                        // Add more content here
-                      ],
-                    ),
-                  ),
-                ],
-              )*/
             );
           },
         );

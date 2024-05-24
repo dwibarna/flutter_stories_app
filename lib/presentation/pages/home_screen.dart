@@ -89,6 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
             return Container();
           }
         }, listener: (BuildContext context, HomeStates state) {
+          bloc.page == 1;
           if (state is DoLogOut) {
             context.goNamed(RouteName.login);
           } else if (state is OnError) {
@@ -103,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }),
         floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add), onPressed: () {
+              bloc.page = 1;
               context.pushReplacementNamed(RouteName.add);
         }));
   }
@@ -110,7 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _customListItem(BuildContext context, Story story) {
     return InkWell(
       onTap: () {
-        context.pushNamed(RouteName.detail, pathParameters: {'id': story.id});
+        bloc.page = 1;
+        context.pushReplacementNamed(RouteName.detail, pathParameters: {'id': story.id});
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

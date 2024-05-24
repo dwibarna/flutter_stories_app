@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
@@ -15,7 +14,8 @@ class PostResponse {
     required this.message,
   });
 
-  factory PostResponse.fromJson(Map<String, dynamic> json) => _$PostResponseFromJson(json);
+  factory PostResponse.fromJson(Map<String, dynamic> json) =>
+      _$PostResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$PostResponseToJson(this);
 

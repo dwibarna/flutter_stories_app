@@ -6,4 +6,5 @@ class RouteName {
   static const home = 'story';
   static const detail = 'detail';
   static const add = 'add';
+  static const location = 'location';
 }

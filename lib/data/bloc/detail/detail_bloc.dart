@@ -20,8 +20,6 @@ class DetailBloc extends Bloc<DetailEvents, DetailStates> {
     try {
       final token = await preferenceManager.getLoginUser();
       final response = await apiService.getDetailStory(token, event.id);
-//      final info = await getPlaceMark(response.story.lat!, response.story.lon!);
-
       if (response.story.lat != null && response.story.lon != null) {
         await getPlaceMark(response.story.lat!, response.story.lon!)
             .then((value) {
@@ -44,16 +42,6 @@ class DetailBloc extends Bloc<DetailEvents, DetailStates> {
           emit(OnError(error: response.message));
         }
       }
-
-/*      await apiService.getDetailStory(token, event.id).then((value) {
-        if (!value.error) {
-          emit(OnSuccess(
-              response: value.story,
-          ));
-        } else {
-          emit(OnError(error: value.message));
-        }
-      });*/
     } catch (e) {
       emit(OnError(error: e.toString()));
     }

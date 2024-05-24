@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:json_annotation/json_annotation.dart';
 
 import '../model/story.dart';
+
 part 'detail_story_response.g.dart';
 
 @JsonSerializable()
@@ -17,7 +16,8 @@ class DetailStoryResponse {
     required this.story,
   });
 
-  factory DetailStoryResponse.fromJson(Map<String, dynamic> json) => _$DetailStoryResponseFromJson(json);
+  factory DetailStoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$DetailStoryResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$DetailStoryResponseToJson(this);
 

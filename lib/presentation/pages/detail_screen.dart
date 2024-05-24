@@ -6,6 +6,7 @@ import 'package:flutter_stories_app/presentation/widgets/build_core_detail.dart'
 import 'package:flutter_stories_app/presentation/widgets/custom_dragable_sheet.dart';
 import 'package:flutter_stories_app/presentation/widgets/cutom_map_view.dart';
 import 'package:flutter_stories_app/presentation/widgets/display_loading.dart';
+import 'package:flutter_stories_app/route/route_name.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../data/bloc/detail/detail_state.dart';
@@ -28,7 +29,7 @@ class DetailScreen extends StatelessWidget {
             leading: BackButton(
               color: Colors.black,
               onPressed: () {
-                context.pop();
+                context.goNamed(RouteName.home);
               },
             )
         ),

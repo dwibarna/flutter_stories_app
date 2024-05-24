@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart' show XFile;
 
 abstract class AddStates extends Equatable {
@@ -18,6 +19,17 @@ class GetImageState extends AddStates {
 
   @override
   List<Object?> get props => [imageFile, imagePath];
+}
+
+class UpdateDataPaidState extends AddStates {
+  final String? imagePath;
+  final XFile? imageFile;
+  final LatLng? latLng;
+
+  UpdateDataPaidState({required this.imagePath, required this.imageFile, required this.latLng});
+
+  @override
+  List<Object?> get props => [imageFile, imagePath, latLng];
 }
 
 class AfterUploadState extends AddStates {

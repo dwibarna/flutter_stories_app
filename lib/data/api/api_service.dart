@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_stories_app/data/response/detail_story_response.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Client, MultipartFile;
 
@@ -16,13 +17,14 @@ class ApiService {
   static const baseUrl = 'https://story-api.dicoding.dev/v1';
 
   Future<PostResponse> postAddNewStory(
-      String desc, List<int> bytes, String fileName, String token) async {
+      String desc, List<int> bytes, String fileName, String token, LatLng? latLng) async {
     const String url = '$baseUrl/stories';
 
     final uri = Uri.parse(url);
     var request = http.MultipartRequest('POST', uri);
 
     final Map<String, String> fields = {'description': desc};
+
 
     final MultipartFile multipartFile =
         http.MultipartFile.fromBytes('photo', bytes, filename: fileName);
@@ -31,6 +33,11 @@ class ApiService {
       "Content-type": 'multipart/form-data',
       "Authorization": 'Bearer $token'
     };
+
+    if(latLng != null) {
+      fields['lat'] = latLng.latitude.toString();
+      fields['lon'] = latLng.longitude.toString();
+    }
 
     request.fields.addAll(fields);
     request.files.add(multipartFile);
@@ -76,7 +83,6 @@ class ApiService {
       final Map<String, String> headers = {'Authorization': 'Bearer $token'};
 
       final response = await client.get(Uri.parse(url), headers: headers);
-
       if (response.statusCode == 200) {
         return ListStoryResponse.fromJson(json.decode(response.body));
       } else {
